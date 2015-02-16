@@ -1,13 +1,13 @@
 #Define a class which contains some common operations to file
 class FileOperator
 
-  OP = { "C" => "create",
-    "D" => "delete",
-    "R" => "read",
-    "A" => "append" }
+  OP = { c: "create",
+    d: "delete",
+    r: "read",
+    a: "append" }
 
   def new_file(name, path = "./")
-    print_start_info(OP["C"], name, path)
+    print_start_info(OP[:c], name, path)
 
     begin
       file = File.new(path + name, "w")
@@ -19,7 +19,7 @@ class FileOperator
   end
 
   def delete_file(name, path = "./")
-    print_start_info(OP["D"], name, path)
+    print_start_info(OP[:d], name, path)
 
     begin
       File.delete(path + name)
@@ -30,7 +30,7 @@ class FileOperator
   end
 
   def read_file(name, path = "./")
-    print_start_info(OP["R"], name, path)
+    print_start_info(OP[:r], name, path)
 
     begin
       file = File.open(path + name, "r")
@@ -43,7 +43,7 @@ class FileOperator
   end
 
   def append_file(content, name, path = "./")
-    print_start_info(OP["A"], name, path)
+    print_start_info(OP[:a], name, path)
 
     begin
       file = File.open(path + name, "w")
@@ -68,11 +68,17 @@ class FileOperator
   end
 end
 
-op = FileOperator.new
-op.new_file("abc.txt", "/Users/rogertong/")
-op.delete_file("abc.txt", "/Users/rogertong/")
-op.new_file("def.txt")
-op.append_file("hahaha", "def.txt")
-op.read_file("def.txt")
-op.delete_file("abc.txt")
+file1 = "abc.txt"
+file2 = "def.txt"
+path = "/Users/rogertong/"
 
+op = FileOperator.new
+
+op.new_file(file1, path)
+op.delete_file(file1, path)
+
+op.new_file(file2)
+op.append_file("hahaha", file2)
+op.read_file(file2)
+op.delete_file(file2)
+op.delete_file(file2)
