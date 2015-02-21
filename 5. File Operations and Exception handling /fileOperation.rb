@@ -1,4 +1,6 @@
 #Define a class which contains some common operations to file
+require 'pry'
+
 class FileOperator
   OP = { c: "create", d: "delete", r: "read", a: "append" }
   
@@ -19,23 +21,23 @@ class FileOperator
   end
 
   def new_file(name)
-    operate(OP[:c], name) { |name| File.new(name, "w") }
+    operate(OP[:c], name) { |file_name| File.new(file_name, "w") }
   end
 
   def delete_file(name)
-    operate(OP[:d], name) do |name| 
-      File.delete(name)
+    operate(OP[:d], name) do |file_name| 
+      File.delete(file_name)
       nil
     end
   end
 
   def read_file(name)
-    operate(OP[:r], name) { |name| File.open(name, "r") }
+    operate(OP[:r], name) { |file_name| File.open(file_name, "r") }
   end
 
   def append_file(content, name)
-    operate(OP[:a], name) do |name, content|
-      file = File.open(name, "w")
+    operate(OP[:a], name) do |file_name, content|
+      file = File.open(file_name, "w")
       file.write(content)
       file
     end
@@ -44,7 +46,10 @@ class FileOperator
   def setCurrDir(dir)
     puts "Input directory: #{dir}"
     Dir.chdir(dir)
-    puts "Current Directory is #{Dir.pwd}"
+  end
+
+  def currDir
+    puts "Current directory is #{Dir.pwd}"
   end
 
   private
@@ -70,6 +75,8 @@ dir2 = "/Users/rogertong/"
 op = FileOperator.new(dir1)
 
 op.new_file(file1)
+
+FileOperator.pry
 
 op.setCurrDir(dir2)
 op.new_file(file2)
